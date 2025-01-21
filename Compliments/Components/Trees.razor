@@ -1,17 +1,34 @@
-﻿<h3>Trees</h3>
-@code {
-    @using Compliments.Models;
-    public List<Tree> trees = [new Tree("tree1", "Spain", 3, "oak"),
-                               new Tree("tree2", "Narnia", 3, "spruce"),
-                               new Tree("tree3", "Jupiter", 3, "apple")];
-    public int a = 1;
+﻿@rendermode InteractiveServer
+@using Compliments.Models;
 
+<h3>Trees</h3>
+@code {
+    //this is kinda like a class
+    public List<Tree> trees = [new Tree("Tree1", "Spain", 3, "oak", new List<Compliment>{Compliment.GetCompliment()}),
+       new Tree("Tree2", "Narnia", 3, "spruce"),
+           new Tree("Tree3", "Jupiter", 3, "apple")];
+    public void AddCompliment(int id)
+    {
+        var tree = trees.FirstOrDefault(testc => testc.Id == id);
+        if (tree != null) tree.Compliments.Add(Compliment.GetCompliment());
+    }
 }
+
 <ul>
     @foreach (var tree in trees)
     {
         <li>
-            <h3>@tree.Name</h3>
+            <h3>@tree.Name, @tree.Species from @tree.Location</h3>
+            <h4>Compliments</h4>
+            <ul>
+                @foreach (var c in tree.Compliments)
+                {
+                    <li>
+                        <h4>@c.Text</h4>
+                    </li>
+                }
+            </ul>
         </li>
+            <button @onclick ="() => AddCompliment(tree.Id)">Add compliment</button>
     }
 </ul>

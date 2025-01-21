@@ -3,7 +3,7 @@
     public class Tree
     {
         private static int nextId = 1;
-        public Tree(string name, string location, int size, string species)
+        public Tree(string name, string location, int size, string species, List<Compliment>? compliments = default)
         {
             Id = nextId;
             nextId++;
@@ -11,7 +11,7 @@
             Location = location;
             Size = size;
             Species = species;
-            Compliments = [];
+            Compliments = compliments ?? [];
         }
 
         public int Id { get; set; }
